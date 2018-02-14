@@ -99,16 +99,6 @@ router.post('/signin', (req, res) => {
 	});
 });
 
-// function isLoggedIn(req, res, next) {
-// 	let bearerToken = req.headers['authorization'];
-// 	if(!bearerToken) { 
-// 		console.log('no token');
-// 		return res.redirect('/');
-// 	}
-// 	req.token = bearerToken.split(' ')[1];
-// 	next();
-// }
-
 function checkUsernameType(name) {
 	let telRegex = /\+?[0-9]*(\(?[0-9]+\))?[0-9]+/g;
 	if(name.match(telRegex)) {

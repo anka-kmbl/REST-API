@@ -11,14 +11,13 @@ let UserSchema = new Schema({
 });
 
 UserSchema.methods.createHash = (plainTextPass) => {
-	//return bcrypt.hash(plainTextPass, saltRounds);
-		// .then((hash) => {
-		// 	return hash;
-		// })
-		// .catch((err) => {
-		// 	throw err;
-		// })
-	return bcrypt.hashSync(plainTextPass, saltRounds);
+	return bcrypt.hash(plainTextPass, saltRounds)
+		.then((hash) => {
+			return hash;
+		})
+		.catch((err) => {
+			throw err;
+		})
 }
 
 UserSchema.methods.passIsValid = function(pass) {
