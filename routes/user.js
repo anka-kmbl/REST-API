@@ -5,8 +5,6 @@ const htmlPath = path.resolve(__dirname, '../public', 'html');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const credentials = require('../config/credentials');
-// router.use(express.static(path.resolve(__dirname, '../public', 'html')));
-
 
 router.get('/signup', (req, res) => {
 	res.sendFile(path.join(htmlPath, 'signup.html'));
@@ -31,12 +29,6 @@ router.post('/signup', (req, res) => {
 					user.password = hash;
 					return user.save();
 				})
-				
-				.catch((err) => {
-					throw err;
-				});
-			
-			user.save()
 				.then((user) => {
 					console.log('before creating a token');
 					user.token = jwt.sign({
@@ -54,14 +46,11 @@ router.post('/signup', (req, res) => {
 								data: savedUser,
 								token: savedUser.token,
 							});
-						})
-						.catch((err) => {
-							throw err;
-						})
+						});
 				})
 				.catch((err) => {
 					throw err;
-				})
+				});
 		}
 	});
 
@@ -96,6 +85,12 @@ router.post('/signin', (req, res) => {
 			token: user.token,
 		});
 		
+	});
+});
+
+router.get('/userTokens', (req, res) => {
+	User.find((err, result) => {
+		res.json(result);
 	});
 });
 

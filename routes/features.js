@@ -16,7 +16,10 @@ router.get('/info', isLoggedIn, (req, res) => {
 			console.log('invalid token');
 			return res.redirect('/');
 		}
-		return res.sendFile(path.join(htmlPath, 'infoPage.html'));
+		return res.json({
+			id: user.username,
+			type_id: user.username_type,
+		})
 	})
 });
 
