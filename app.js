@@ -21,14 +21,8 @@ const indexRoutes = require('./routes/index');
 const userRoutes = require('./routes/user');
 const features = require('./routes/features');
 
-app.use('/', (req, res, next) => {
-	console.log('in index app use');
-	next();
-}, indexRoutes);
-app.use('/', (req, res, next) => {
-	console.log('in user app use');
-	next();
-}, userRoutes);
+app.use('/', indexRoutes);
+app.use('/', userRoutes);
 app.use('/', features);
 
 
