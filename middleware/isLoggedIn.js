@@ -41,9 +41,9 @@ function checkIfTokenIsExpired(token) {
 		console.log(decodedToken);
 		let createdAt = decodedToken.createdAt;
 		console.log(createdAt);
-		
-		console.log(`date diff ${(Date.now() - createdAt)/1000} ms`);
-		if(Date.now() - createdAt > (10 * 60 * 1000)) {
+		console.log(Date.now());
+		// console.log(`date diff ${(Date.now() - createdAt)/1000} s`);
+		if((Date.now() - createdAt) > (10 * 60 * 1000)) {
 			console.log('expired token. making it null..');
 
 			updateUser({"token" : token}, {$set : {"token": null}})

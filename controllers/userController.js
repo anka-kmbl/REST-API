@@ -28,3 +28,16 @@ module.exports.signIn = (req, res) => {
 			throw err;
 		});
 }
+
+module.exports.logOut = (req, res) => {
+	userService.performLogOut(req.body.token)
+		.then((result) => {
+			if(result) {
+				return res.json({info:'logout was successfull'});
+			} 
+			return res.json({info:'could not log out, you are still signed in!'});
+		})
+		.catch((err) => {
+			throw err;
+		});
+}

@@ -67,7 +67,7 @@ module.exports.performSignIn = (req) => {
 				res({info: 'invalid pass'});
 			} else if(!user.token) {
 				let newToken = createToken(user);
-				updateUser({username: user.username}, {$set: {"token": newToken}})
+				updateUser({"username": user.username}, {$set: {"token": newToken}})
 					.then((numAffectedDocs) => {
 						console.log(numAffectedDocs);
 						res({
@@ -90,25 +90,22 @@ module.exports.performSignIn = (req) => {
 
 }
 
-// module.exports.getInfo = (token) => {
-// 	return new Promise((res, rej) => {
-// 		User.findOne({
-// 			token: token
-// 		}, (err, user) => {
-// 			if(err) {
-// 				throw err;
-// 			}
-// 			if(!user) {
-// 				console.log('invalid token');
-// 				return res({info: 'Invalid token'});
-// 			}
-// 			return res({
-// 				id: user.username,
-// 				type_id: user.username_type,
-// 			});
-// 		});
-// 	});
-// }
+module.exports.performLogOut = (token) => {
+	return new Promise((res, rej) => {
+		updateUser({"token": token}, {$set: {"token": null}})
+			.then((numAffectedDocs) => {
+				if(numAffectedDocs.nModified === 1) {
+					res(true);
+				} 
+				res(false);
+				
+			})
+			.catch((err) => {
+				rej(err);
+			})
+	});
+}
+
 
 function createToken(user) {
 	let date = Date.now();
