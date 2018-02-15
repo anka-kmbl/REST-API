@@ -1,7 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const cookieParser = require('cookie-parser');
-// const session = require('session');
 const mongoose = require('mongoose');
 const dbUrl = require('./config/database').url;
 const app = express();

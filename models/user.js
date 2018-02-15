@@ -21,13 +21,6 @@ UserSchema.methods.createHash = (plainTextPass) => {
 }
 
 UserSchema.methods.passIsValid = function(pass) {
-	// bcrypt.compare(pass, this.password)
-	// 	.then((res) => {
-	// 		return res;
-	// 	})
-	// 	.catch((err) => {
-	// 		throw err;
-	// 	});
 	return bcrypt.compareSync(pass, this.password);
 }
 

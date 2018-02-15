@@ -14,17 +14,14 @@ module.exports = function (req, res, next) {
 	checkIfTokenIsExpired(req.token)
 		.then((result) => {
 			if(!result) {
-				console.log('token is expired');
 				return res.status(401).end('token is expired, sign in again');
 			} 
 			checkIfTokenFitsUser(req.token)
 			.then((userData) => {
 				if(!userData) {
-					console.log('should sign in again');
 					return res.status(401).send('invalid token. you should sign in again');
 				} else {
 					console.log('token was prolonged');
-					console.log(userData);
 					req.user = userData;
 					next();
 				}
@@ -44,11 +41,8 @@ function checkIfTokenIsExpired(token) {
 		console.log(Date.now());
 		// console.log(`date diff ${(Date.now() - createdAt)/1000} s`);
 		if((Date.now() - createdAt) > (10 * 60 * 1000)) {
-			console.log('expired token. making it null..');
-
 			updateUser({"token" : token}, {$set : {"token": null}})
 				.then((numAffectedDocs) => {
-					console.log(numAffectedDocs);
 					res(false);
 				})
 				.catch((err) => {
@@ -73,7 +67,6 @@ function checkIfTokenFitsUser(token) {
 				rej(err);
 			}
 			if(!user) {
-				console.log('invalid token');
 				res(false);
 			} else {
 				console.log('token prolongation...');
@@ -93,7 +86,6 @@ function checkIfTokenFitsUser(token) {
 function prolongToken(user) {
 	return new Promise((res, rej) => {
 		let oldCreationDate = jwt.decode(user.token).createdAt;
-		console.log(`oldcreationdate ${oldCreationDate}`);
 		let newToken = jwt.sign({
 			username: user.username,
 			createdAt: oldCreationDate + (10 * 60 * 1000),
@@ -101,7 +93,6 @@ function prolongToken(user) {
 
 		updateUser({"username": user.username}, {$set: {"token": newToken}})
 			.then((numAffectedDocs) => {
-				console.log(numAffectedDocs);
 				res( {
 					type: true,
 					username: user.username,

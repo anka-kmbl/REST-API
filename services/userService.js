@@ -61,7 +61,6 @@ module.exports.performSignIn = (req) => {
 				rej(err);
 			}
 			if(!user) {
-				console.log('no user');
 				res({info: 'No such user'});
 			} else if(!user.passIsValid(req.body.password)) {
 				res({info: 'invalid pass'});
@@ -69,7 +68,6 @@ module.exports.performSignIn = (req) => {
 				let newToken = createToken(user);
 				updateUser({"username": user.username}, {$set: {"token": newToken}})
 					.then((numAffectedDocs) => {
-						console.log(numAffectedDocs);
 						res({
 							type: true,
 							username: user.username,
@@ -98,7 +96,6 @@ module.exports.performLogOut = (token) => {
 					res(true);
 				} 
 				res(false);
-				
 			})
 			.catch((err) => {
 				rej(err);
@@ -109,7 +106,6 @@ module.exports.performLogOut = (token) => {
 
 function createToken(user) {
 	let date = Date.now();
-	console.log(`datenow ${date}`);
 	return jwt.sign({
 		username: user.username,
 		createdAt: date,

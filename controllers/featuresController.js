@@ -1,11 +1,15 @@
 const latencyService = require('../services/latencyService');
-// const userService = require('../services/userService');
 
 module.exports.getLatency = (req, res) => {
-	
+	latencyService.measureLatency()
+		.then((duration) => {
+			return res.json({resource: 'google.com', requestDuration: `${duration}ms`, token: req.user.token});
+		})
+		.catch((err) => {
+			throw err;
+		});	
 }
 
 module.exports.getUserInfo = (req, res) => {
-	console.log(`featuresController user info ${req.user}`);
 	res.json(req.user);
 }	

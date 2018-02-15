@@ -21,7 +21,6 @@ module.exports.getSignInPage = (req, res) => {
 module.exports.signIn = (req, res) => {
 	userService.performSignIn(req)
 		.then((result) => {
-			console.log(`resp json ${result}`);
 			res.json(result);
 		})
 		.catch((err) => {
