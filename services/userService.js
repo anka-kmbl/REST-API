@@ -79,6 +79,26 @@ module.exports.performSignIn = (req) => {
 
 }
 
+module.exports.getInfo = (token) => {
+	return new Promise((res, rej) => {
+		User.findOne({
+			token: token
+		}, (err, user) => {
+			if(err) {
+				throw err;
+			}
+			if(!user) {
+				console.log('invalid token');
+				return res({info: 'Invalid token'});
+			}
+			return res({
+				id: user.username,
+				type_id: user.username_type,
+			});
+		});
+	});
+}
+
 
 function checkUsernameType(name) {
 	let telRegex = /\+?[0-9]*(\(?[0-9]+\))?[0-9]+/g;

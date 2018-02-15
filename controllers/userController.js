@@ -1,4 +1,4 @@
-const userService = require('../services/user');
+const userService = require('../services/userService');
 
 module.exports.getSignUpPage = (req, res) => {
 	res.sendFile(userService.getPath('signup.html'));
